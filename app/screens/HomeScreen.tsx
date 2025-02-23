@@ -60,7 +60,7 @@ export default function HomeScreen() {
   const renderItem = ({ item }: { item: Listing }) => (
     <TouchableOpacity
       style={styles.listingCard}
-      onPress={() => router.push(`/${item.id}`)}
+      onPress={() => router.push(`../${item.id}` as const)}
     >
       {item.images && item.images.length > 0 ? (
         <Image
