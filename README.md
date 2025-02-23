@@ -33,7 +33,7 @@ yarn start
 ```
 
 4. Run on your web browser:
-- after running above command, you will see a localhost link, click on it and you will be redirected to the app in your web browser. Inspect the app with the browser's developer tools to view the app on your phone.
+- after running above command, you will see a localhost link, click on it and you will be redirected to the app in your web browser (preferebly chrome). Inspect the app with chrome's developer tools to view the app on your phone.
 
 ## Project Structure
 
