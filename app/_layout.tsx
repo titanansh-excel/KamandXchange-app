@@ -25,13 +25,17 @@ function RootLayoutNav() {
         headerTitleStyle: {
           fontWeight: 'bold',
         },
+        headerTitle: '',
       }}
     >
       {session ? (
         <>
           <Stack.Screen 
             name="(tabs)" 
-            options={{ headerShown: false }} 
+            options={{ 
+              headerShown: false,
+              headerTitle: '' 
+            }} 
           />
           <Stack.Screen 
             name="[id]" 
