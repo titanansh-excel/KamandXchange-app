@@ -281,9 +281,8 @@ export const getConversationMessages = async (userId: string, partnerId: string)
   return data;
 };
 
-export const sendMessage = async (message: { content: string; sender_id: string; receiver_id: string; listing_id: string }) => {
+export const sendMessage = async (message: { content: string; sender_id: string; receiver_id: string; listing_id?: string }) => {
   try {
-    // Send the message with listing_id
     const { data, error } = await supabase
       .from('messages')
       .insert({

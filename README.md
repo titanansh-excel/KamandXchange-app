@@ -27,15 +27,13 @@ yarn install
 
 3. Start the development server
 ```bash
-npm start
+npm start / npx expo start
 # or
 yarn start
 ```
 
-4. Run on your device or emulator
-- Scan the QR code with Expo Go app (Android)
-- Press 'a' for Android emulator
-- Press 'w' for web browser
+4. Run on your web browser:
+- after running above command, you will see a localhost link, click on it and you will be redirected to the app in your web browser. Inspect the app with the browser's developer tools to view the app on your phone.
 
 ## Project Structure
 

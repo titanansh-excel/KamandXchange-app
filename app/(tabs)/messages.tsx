@@ -62,17 +62,17 @@ export default function MessagesScreen() {
 
           const conversation: Conversation = {
             partnerId,
-            partnerUsername: userResponse.data.user?.user_metadata?.username || 'Unknown User',
+            partnerUsername: `User-${partnerId.slice(0, 8)}`,
             listingId: message.listing_id,
             listingTitle: listingData?.title || 'Unknown Listing',
             lastMessage: {
               ...message,
               sender_username: message.sender_id === session.user.id 
                 ? 'You' 
-                : userResponse.data.user?.user_metadata?.username || 'Unknown User',
+                : `User-${message.sender_id.slice(0, 8)}`,
               receiver_username: message.receiver_id === session.user.id
                 ? 'You'
-                : userResponse.data.user?.user_metadata?.username || 'Unknown User',
+                : `User-${message.receiver_id.slice(0, 8)}`,
               listing_title: listingData?.title || 'Unknown Listing'
             }
           };
