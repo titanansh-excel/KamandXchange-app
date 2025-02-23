@@ -35,13 +35,14 @@ export default function ProductDetails() {
     }
 
     try {
-      await sendMessage({
+      const message = await sendMessage({
         content: `Hi, I'm interested in your ${listing?.title}`,
         sender_id: session.user.id,
-        receiver_id: listing?.user_id as string,
-        listing_id: listing?.id as string
+        receiver_id: listing?.user_id,
+        listing_id: listing?.id
       });
-      router.push('/(tabs)/messages');
+      
+      router.push(`/chat/${listing?.id}` as const);
     } catch (error) {
       console.error('Error starting chat:', error);
       Alert.alert('Error', 'Failed to start chat with seller');
@@ -59,10 +60,24 @@ export default function ProductDetails() {
           style: 'destructive',
           onPress: async () => {
             try {
+              console.log('Starting delete operation for listing:', listing?.id);
+              console.log('Current user:', session?.user?.id);
+              console.log('Listing user_id:', listing?.user_id);
+              
               await deleteListing(listing?.id);
-              router.replace('/(tabs)/');
+              console.log('Delete operation successful');
+              Alert.alert('Success', 'Listing deleted successfully', [
+                {
+                  text: 'OK',
+                  onPress: () => {
+                    console.log('Navigating back to home');
+                    router.replace('/(tabs)/');
+                  }
+                }
+              ]);
             } catch (error) {
-              Alert.alert('Error', 'Failed to delete listing');
+              console.error('Error deleting listing:', error);
+              Alert.alert('Error', 'Failed to delete listing. Please try again.');
             }
           }
         }

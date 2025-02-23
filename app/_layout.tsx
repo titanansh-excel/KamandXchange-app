@@ -26,6 +26,8 @@ function RootLayoutNav() {
           fontWeight: 'bold',
         },
         headerTitle: '',
+        animation: 'slide_from_right',
+        presentation: 'card',
       }}
     >
       {session ? (

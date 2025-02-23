@@ -25,8 +25,8 @@ export default function ProfileScreen() {
       </View>
 
       <View style={styles.section}>
-        <Text style={styles.sectionTitle}>Account Management</Text>
-
+        <Text style={styles.sectionTitle}>Account Settings</Text>
+        
         <Pressable
           style={styles.button}
           onPress={handleSignOut}

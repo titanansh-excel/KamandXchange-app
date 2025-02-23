@@ -1,16 +1,20 @@
 import React, { useState } from 'react'
 import { View, Text, TextInput, TouchableOpacity, StyleSheet, Alert } from 'react-native'
-import { useAuth } from '../context/AuthContext'
 import { router } from 'expo-router'
+import { supabase } from '../lib/supabase'
 
 export default function SignUpScreen() {
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
   const [confirmPassword, setConfirmPassword] = useState('')
   const [loading, setLoading] = useState(false)
-  const { signUp } = useAuth()
 
   const handleSignUp = async () => {
+    if (!email || !password || !confirmPassword) {
+      Alert.alert('Error', 'Please fill in all fields')
+      return
+    }
+
     if (password !== confirmPassword) {
       Alert.alert('Error', 'Passwords do not match')
       return
@@ -18,12 +22,31 @@ export default function SignUpScreen() {
 
     try {
       setLoading(true)
-      await signUp(email, password)
-      Alert.alert('Success', 'Please check your email to confirm your account')
+
+      // Create the user account
+      const { data, error: signUpError } = await supabase.auth.signUp({
+        email,
+        password
+      })
+
+      if (signUpError) {
+        throw signUpError
+      }
+
+      // Immediately redirect to login page after successful signup
       router.replace('/auth/login')
-    } catch (error) {
-      Alert.alert('Error', 'Failed to sign up')
-      console.error(error)
+      
+      // Show success message after navigation
+      setTimeout(() => {
+        Alert.alert(
+          'Success',
+          'Account created! Please check your email to verify your account.'
+        )
+      }, 100)
+      
+    } catch (error: any) {
+      console.error('Error:', error)
+      Alert.alert('Error', error.message || 'Failed to create account')
     } finally {
       setLoading(false)
     }
@@ -56,7 +79,7 @@ export default function SignUpScreen() {
           secureTextEntry
         />
         <TouchableOpacity
-          style={styles.button}
+          style={[styles.button, loading && styles.buttonDisabled]}
           onPress={handleSignUp}
           disabled={loading}
         >
@@ -65,7 +88,7 @@ export default function SignUpScreen() {
           </Text>
         </TouchableOpacity>
         <TouchableOpacity
-          onPress={() => router.back()}
+          onPress={() => router.replace('/auth/login')}
           style={styles.linkButton}
         >
           <Text style={styles.linkText}>Already have an account? Sign In</Text>
@@ -103,6 +126,9 @@ const styles = StyleSheet.create({
     padding: 16,
     borderRadius: 8,
     alignItems: 'center',
+  },
+  buttonDisabled: {
+    opacity: 0.7,
   },
   buttonText: {
     color: '#fff',
