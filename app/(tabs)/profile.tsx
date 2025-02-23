@@ -1,153 +1,82 @@
-import { View, Text, StyleSheet, Pressable, ScrollView } from 'react-native';
-import { Image } from 'expo-image';
+import React from 'react';
+import { View, Text, StyleSheet, Pressable, Alert } from 'react-native';
+import { useAuth } from '../context/AuthContext';
 import { Ionicons } from '@expo/vector-icons';
+import { router } from 'expo-router';
 
 export default function ProfileScreen() {
+  const { session, signOut } = useAuth();
+
+  const handleSignOut = async () => {
+    try {
+      await signOut();
+      router.replace('/auth/login');
+    } catch (error) {
+      console.error('Error signing out:', error);
+      Alert.alert('Error', 'Failed to sign out');
+    }
+  };
+
   return (
-    <ScrollView style={styles.container}>
+    <View style={styles.container}>
       <View style={styles.header}>
-        <Image
-          source="https://images.unsplash.com/photo-1599566150163-29194dcaad36?q=80&w=200"
-          style={styles.avatar}
-        />
-        <Text style={styles.name}>Rahul Kumar</Text>
-        <Text style={styles.email}>rahul.kumar@students.iitmandi.ac.in</Text>
-        <View style={styles.stats}>
-          <View style={styles.statItem}>
-            <Text style={styles.statNumber}>12</Text>
-            <Text style={styles.statLabel}>Listings</Text>
-          </View>
-          <View style={styles.statDivider} />
-          <View style={styles.statItem}>
-            <Text style={styles.statNumber}>4.8</Text>
-            <Text style={styles.statLabel}>Rating</Text>
-          </View>
-          <View style={styles.statDivider} />
-          <View style={styles.statItem}>
-            <Text style={styles.statNumber}>25</Text>
-            <Text style={styles.statLabel}>Sold</Text>
-          </View>
-        </View>
+        <Ionicons name="person-circle" size={80} color="#2563eb" />
+        <Text style={styles.email}>{session?.user?.email}</Text>
       </View>
 
       <View style={styles.section}>
-        <Text style={styles.sectionTitle}>My Listings</Text>
-        <Pressable style={styles.menuItem}>
-          <Ionicons name="pricetag" size={24} color="#666" />
-          <Text style={styles.menuText}>Active Listings</Text>
-          <Ionicons name="chevron-forward" size={24} color="#666" />
-        </Pressable>
-        <Pressable style={styles.menuItem}>
-          <Ionicons name="archive" size={24} color="#666" />
-          <Text style={styles.menuText}>Sold Items</Text>
-          <Ionicons name="chevron-forward" size={24} color="#666" />
-        </Pressable>
-      </View>
+        <Text style={styles.sectionTitle}>Account Management</Text>
 
-      <View style={styles.section}>
-        <Text style={styles.sectionTitle}>Account</Text>
-        <Pressable style={styles.menuItem}>
-          <Ionicons name="person" size={24} color="#666" />
-          <Text style={styles.menuText}>Edit Profile</Text>
-          <Ionicons name="chevron-forward" size={24} color="#666" />
-        </Pressable>
-        <Pressable style={styles.menuItem}>
-          <Ionicons name="notifications" size={24} color="#666" />
-          <Text style={styles.menuText}>Notifications</Text>
-          <Ionicons name="chevron-forward" size={24} color="#666" />
-        </Pressable>
-        <Pressable style={styles.menuItem}>
-          <Ionicons name="shield" size={24} color="#666" />
-          <Text style={styles.menuText}>Privacy & Security</Text>
-          <Ionicons name="chevron-forward" size={24} color="#666" />
-        </Pressable>
-        <Pressable style={[styles.menuItem, styles.logoutButton]}>
-          <Ionicons name="log-out" size={24} color="#ef4444" />
-          <Text style={[styles.menuText, styles.logoutText]}>Log Out</Text>
+        <Pressable
+          style={styles.button}
+          onPress={handleSignOut}
+        >
+          <Ionicons name="log-out-outline" size={24} color="#666" />
+          <Text style={styles.buttonText}>Sign Out</Text>
         </Pressable>
       </View>
-    </ScrollView>
+    </View>
   );
 }
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#f5f5f5',
+    backgroundColor: '#fff',
+    padding: 16,
   },
   header: {
     alignItems: 'center',
-    padding: 24,
-    backgroundColor: '#fff',
+    paddingVertical: 24,
     borderBottomWidth: 1,
     borderBottomColor: '#eee',
   },
-  avatar: {
-    width: 100,
-    height: 100,
-    borderRadius: 50,
-    marginBottom: 12,
-  },
-  name: {
-    fontSize: 24,
-    fontWeight: '600',
-    marginBottom: 4,
-  },
   email: {
-    fontSize: 16,
-    color: '#666',
-    marginBottom: 16,
-  },
-  stats: {
-    flexDirection: 'row',
-    justifyContent: 'space-around',
-    width: '100%',
-    paddingTop: 16,
-  },
-  statItem: {
-    alignItems: 'center',
-  },
-  statNumber: {
-    fontSize: 20,
-    fontWeight: '600',
-    marginBottom: 4,
-  },
-  statLabel: {
-    fontSize: 14,
-    color: '#666',
-  },
-  statDivider: {
-    width: 1,
-    height: '100%',
-    backgroundColor: '#eee',
+    fontSize: 18,
+    marginTop: 8,
+    color: '#333',
   },
   section: {
     marginTop: 24,
-    backgroundColor: '#fff',
-    paddingVertical: 8,
   },
   sectionTitle: {
     fontSize: 18,
     fontWeight: '600',
-    marginBottom: 8,
-    paddingHorizontal: 16,
+    marginBottom: 16,
+    color: '#333',
   },
-  menuItem: {
+  button: {
     flexDirection: 'row',
     alignItems: 'center',
     padding: 16,
-    borderBottomWidth: 1,
-    borderBottomColor: '#eee',
+    backgroundColor: '#f3f4f6',
+    borderRadius: 8,
+    marginBottom: 12,
+    gap: 12,
   },
-  menuText: {
-    flex: 1,
+  buttonText: {
     fontSize: 16,
-    marginLeft: 12,
-  },
-  logoutButton: {
-    borderBottomWidth: 0,
-  },
-  logoutText: {
-    color: '#ef4444',
+    color: '#666',
+    flex: 1,
   },
 });

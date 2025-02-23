@@ -1,7 +1,16 @@
 import { View, Text, StyleSheet, FlatList, Pressable } from 'react-native';
 import { Image } from 'expo-image';
 
-const MESSAGES = [
+type Message = {
+  id: string;
+  user: string;
+  avatar: string;
+  lastMessage: string;
+  time: string;
+  unread: boolean;
+}
+
+const MESSAGES: Message[] = [
   {
     id: '1',
     user: 'Rahul Kumar',
@@ -29,7 +38,7 @@ const MESSAGES = [
 ];
 
 export default function MessagesScreen() {
-  const renderItem = ({ item }) => (
+  const renderItem = ({ item }: { item: Message }) => (
     <Pressable style={styles.messageItem}>
       <Image source={item.avatar} style={styles.avatar} />
       <View style={styles.messageContent}>

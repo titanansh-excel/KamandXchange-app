@@ -1,7 +1,12 @@
 import { View, Text, StyleSheet, ScrollView, Pressable } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 
-const CATEGORIES = [
+const CATEGORIES: {
+  id: string;
+  name: string;
+  icon: keyof typeof Ionicons.glyphMap;
+  color: string;
+}[] = [
   { id: '1', name: 'Textbooks', icon: 'book', color: '#3b82f6' },
   { id: '2', name: 'Electronics', icon: 'laptop', color: '#10b981' },
   { id: '3', name: 'Furniture', icon: 'bed', color: '#f59e0b' },
