@@ -14,7 +14,7 @@ A React Native mobile application built with Expo and Supabase that allows stude
 
 1. Clone the repository
 ```bash
-git clone https://github.com/yourusername/campus-marketplace.git
+git clone https://github.com/titanansh-excel/KamandXchange-app.git
 cd campus-marketplace
 ```
 
